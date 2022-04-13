@@ -68,7 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry&key=YOUR_API_KEY")
+                .url("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry&key=AIzaSyD9UuZQ8tD-Hy5AETm3VMmfj5Q0zbL_kjM")
                 .method("GET", null)
                 .build();
 
@@ -77,7 +77,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    String responseData = response.body().string();
+                    System.out.println(responseData);
+                    JSONObject jsonObject = new JSONObject(responseData);
                 } catch (JSONException e) {
                     // Do something
                 }
