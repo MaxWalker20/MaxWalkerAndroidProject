@@ -1,7 +1,9 @@
 package com.example.googlemapsactivity;
 
+
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -92,5 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     private void updateTextMessage(){
         System.out.println("Button successfully pressed");
+        final TextView changingText = (TextView) findViewById(R.id.text_to_change);
+        changingText.setText("Hello");
     }
 }
