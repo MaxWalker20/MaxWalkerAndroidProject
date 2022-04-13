@@ -88,5 +88,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         };
 
         client.newCall(request).enqueue(callback);
+        updateTextMessage();
+    }
+    private void updateTextMessage(){
+        System.out.println("Button successfully pressed");
     }
 }
