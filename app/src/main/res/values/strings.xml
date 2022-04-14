@@ -2,5 +2,15 @@
     <string name="app_name">Google Maps Activity</string>
     <string name="title_activity_maps">MapsActivity</string>
     <!-- <string name="api_request_url">https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry&key=AIzaSyAKVTNcq8VeViWRo4zoUKYTffb7McmkR64</string>
+    https://
+    maps.googleapis.com/
+    maps/api/place/findplacefromtext/json?
+    input=Museum%20of%20Contemporary%20Art%20Australia
+    &inputtype=textquery
+    &fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry
+    &key=AIzaSyAKVTNcq8VeViWRo4zoUKYTffb7McmkR64
+
+
+
     -->
 </resources>

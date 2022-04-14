@@ -1,6 +1,7 @@
 package com.example.googlemapsactivity;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -19,7 +20,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLOutput;
 
 
 import okhttp3.OkHttpClient;
@@ -72,14 +75,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void buttonPush(View view) {
 
-        URL apiRequestUrl = new HttpUrl.Builder()
-                .scheme("https")
-                .host("maps.googleapis.com")
-                .port(4567)
-                .addPathSegments("foldername/1234")
-                .addQueryParameter("abc", "xyz")
-                .build().url();
+        //Do this next bit in a class
 
+        final String PLACE_BASE_URL =
+                "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?";
+        final String INPUT_PARAM = "input";
+        final String INPUTTYPE_PARAM = "inputtype";
+        final String FIELDS_PARAM = "fields";
+        final String KEY_PARAM = "key";
+
+        Uri builtUri = Uri.parse(PLACE_BASE_URL)
+                .buildUpon()
+                .appendQueryParameter(INPUT_PARAM, "Museum%20of%20Contemporary%20Art%20Australia")
+                .appendQueryParameter(INPUTTYPE_PARAM, "textquery")
+                .appendQueryParameter(FIELDS_PARAM, "formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry")
+                .appendQueryParameter(KEY_PARAM, "AIzaSyAKVTNcq8VeViWRo4zoUKYTffb7McmkR64")
+                .build();
+
+
+        URL apiRequestUrl;
+        try {
+            apiRequestUrl = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            // Do something
+            return;
+        }
+        System.out.println(builtUri.toString());
+        System.out.println(builtUri.toString() == "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry&key=AIzaSyAKVTNcq8VeViWRo4zoUKYTffb7McmkR64");
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
