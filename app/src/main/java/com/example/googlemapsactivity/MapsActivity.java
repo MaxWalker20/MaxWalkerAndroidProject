@@ -1,6 +1,7 @@
 package com.example.googlemapsactivity;
 
 
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -9,12 +10,15 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.googlemapsactivity.databinding.ActivityMapsBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,6 +55,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //Location stuff here
+        private FusedLocationProviderClient fusedLocationClient;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        }
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                        }
+                    }
+                });
     }
 
     /**
@@ -86,9 +108,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Uri builtUri = Uri.parse(PLACE_BASE_URL)
                 .buildUpon()
-                .appendQueryParameter(INPUT_PARAM, "Museum%20of%20Contemporary%20Art%20Australia")
+                .appendQueryParameter(INPUT_PARAM, "nearby coffee shop")
                 .appendQueryParameter(INPUTTYPE_PARAM, "textquery")
-                .appendQueryParameter(FIELDS_PARAM, "formatted_address%2Cname%2Crating%2Copening_hours%2Cgeometry")
+                .appendQueryParameter(FIELDS_PARAM, "formatted_address,name,rating,opening_hours,geometry")
                 .appendQueryParameter(KEY_PARAM, "AIzaSyAKVTNcq8VeViWRo4zoUKYTffb7McmkR64")
                 .build();
 
@@ -127,6 +149,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
               // Do something
             }
         };
+
 
         client.newCall(request).enqueue(callback);
         updateTextMessage();
