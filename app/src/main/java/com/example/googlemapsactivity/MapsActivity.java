@@ -39,8 +39,16 @@ import okhttp3.HttpUrl;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    final String PLACE_BASE_URL =
+            "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?";
+    final String INPUT_PARAM = "input";
+    final String INPUTTYPE_PARAM = "inputtype";
+    final String FIELDS_PARAM = "fields";
+    final String KEY_PARAM = "key";
+
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,23 +64,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //Location stuff here
-        private FusedLocationProviderClient fusedLocationClient;
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            // Logic to handle location object
-                        }
-                    }
-                });
+
     }
 
     /**
@@ -84,6 +77,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -97,14 +92,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void buttonPush(View view) {
 
-        //Do this next bit in a class
-
-        final String PLACE_BASE_URL =
-                "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?";
-        final String INPUT_PARAM = "input";
-        final String INPUTTYPE_PARAM = "inputtype";
-        final String FIELDS_PARAM = "fields";
-        final String KEY_PARAM = "key";
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                        }
+                    }
+                });
 
         Uri builtUri = Uri.parse(PLACE_BASE_URL)
                 .buildUpon()
